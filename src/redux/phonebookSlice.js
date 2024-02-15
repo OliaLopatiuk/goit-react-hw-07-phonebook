@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { nanoid } from 'nanoid';
 import { fetchContacts, deleteContact, addContact } from './operations';
 
 const phonebookInitialState = {
