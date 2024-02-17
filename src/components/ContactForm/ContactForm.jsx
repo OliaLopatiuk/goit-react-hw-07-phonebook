@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { Form, Label, Input } from './ContactForm.styled';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from '../../redux/operations';
+import { selectContacts } from '../../redux/phonebookSlice';
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
+  const contacts = useSelector(selectContacts);
 
   const handleChange = e => {
     switch (e.target.name) {
@@ -23,7 +25,16 @@ export const ContactForm = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    // dispatch(addContact({ name, number }));
+    const check = contacts.findIndex(
+      contact => contact.name.toLowerCase() === name.toLowerCase()
+    );
+
+    if (!!~check) {
+      alert(`${name} is already in contacts`);
+      setName('');
+      setPhone('');
+      return;
+    }
     dispatch(addContact({ name, phone }));
     setName('');
     setPhone('');
